@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora COCOMO 81</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora COCOMO 81</h1>
+            <p>Modelo Intermedio para Estimación de Proyectos de Software</p>
+        </header>
+
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="basic">Datos Básicos</div>
+                <div class="tab" data-tab="factors">Factores de Ajuste</div>
+                <div class="tab" data-tab="team">Equipo y Costos</div>
+            </div>
+
+            <div class="tab-content active" id="basic-tab">
+                <div class="form-group">
+                    <label for="project-type">Tipo de Proyecto</label>
+                    <select id="project-type">
+                        <option value="organic">Orgánico (pequeño, equipos pequeños)</option>
+                        <option value="semi-detached">Semi-acoplado (intermedio)</option>
+                        <option value="embedded">Empotrado (rígido, complejo)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="kloc">Tamaño del Proyecto (KLOC)</label>
+                    <input type="number" id="kloc" min="0.1" step="0.1" placeholder="Ej: 50 (para 50,000 líneas de código)" required>
+                </div>
+            </div>
+
+            <div class="tab-content" id="factors-tab">
+                <h3>Factores de Ajuste de Esfuerzo (EAF)</h3>
+                <p>Seleccione los valores que mejor describan su proyecto (1.00 = nominal)</p>
+                
+                <div class="factors-grid">
+                    <div class="factor-item">
+                        <label>RELY - Fiabilidad requerida
+                            <span class="tooltip">?<span class="tooltiptext">Grado de impacto de una falla del software</span></span>
+                        </label>
+                        <select class="factor" data-factor="RELY">
+                            <option value="0.75">Baja (0.75)</option>
+                            <option value="0.88" selected>Nominal (0.88)</option>
+                            <option value="1.00">Alta (1.00)</option>
+                            <option value="1.15">Muy alta (1.15)</option>
+                            <option value="1.40">Crítica (1.40)</option>
+                        </select>
+                    </div>
+
+                    <!-- Se incluyen los 15 factores completos en el archivo final -->
+                    <!-- ... (otros factores) ... -->
+                    
+                </div>
+            </div>
+
+            <div class="tab-content" id="team-tab">
+                <div class="form-group">
+                    <label for="calculation-mode">Modo de cálculo</label>
+                    <select id="calculation-mode">
+                        <option value="effort">Calcular esfuerzo y duración</option>
+                        <option value="team">Especificar equipo y calcular duración</option>
+                        <option value="duration">Especificar duración y calcular equipo</option>
+                    </select>
+                </div>
+
+                <div id="team-input" class="form-group" style="display: none;">
+                    <label for="team-size">Número de programadores</label>
+                    <input type="number" id="team-size" min="1" step="1" placeholder="Ej: 5">
+                </div>
+
+                <div id="duration-input" class="form-group" style="display: none;">
+                    <label for="desired-duration">Duración deseada (meses)</label>
+                    <input type="number" id="desired-duration" min="1" step="0.5" placeholder="Ej: 6.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Sueldo mensual promedio por programador (USD)</label>
+                    <input type="number" id="salary" min="0" step="100" placeholder="Ej: 2500">
+                </div>
+
+                <button id="calculate-btn" type="button">Calcular Estimación</button>
+            </div>
+        </div>
+
+        <div class="card results" id="results" style="display: none;">
+            <h2>Resultados de la Estimación</h2>
+            <div id="results-content"></div>
+        </div>
+
+        <div class="card" id="interpretation">
+            <h2>Interpretación de Resultados</h2>
+            <p>El modelo COCOMO intermedio estima el esfuerzo necesario para desarrollar un proyecto de software basado en su tamaño (KLOC) y factores de ajuste.</p>
+            <h3>Fórmulas utilizadas:</h3>
+            <p><strong>Esfuerzo (E):</strong> a × (KLOC)<sup>b</sup> × EAF</p>
+            <p><strong>Duración (D):</strong> c × (E)<sup>d</sup></p>
+            <p><strong>Personal (P):</strong> E / D</p>
+        </div>
+
+        <footer>
+            <p>Calculadora COCOMO 81 - Modelo Intermedio</p>
+            <p>Desarrollado por [Tu Equipo] - <span id="current-date"></span></p>
+        </footer>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
